@@ -1,9 +1,0 @@
-export default function createReportObject(employeesList) {
-    console.log(employeesList);
-    const report = {
-	allEmployees:employeesList,
-	getNumberOfDepartments() {return employeesList.length;},
-    };
-
-    return report;
-}
