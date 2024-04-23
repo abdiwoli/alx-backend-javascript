@@ -1,0 +1,2 @@
+console.log(fullBudget.getIncomeInDollars(fullBudget.income));
+console.log(fullBudget.getIncomeInEuros(fullBudget.income));k
