@@ -1,9 +1,20 @@
-import listOfStudents from "./9-hoisting.js";
+import HolbertonCourse from "./2-hbtn_course.js";
 
-console.log(listOfStudents);
+const c1 = new HolbertonCourse("ES6", 1, ["Bob", "Jane"])
+console.log(c1.name);
+c1.name = "Python 101";
+console.log(c1);
 
-const listPrinted = listOfStudents.map(
-    student => student.fullStudentDescription
-);
+try {
+    c1.name = 12;
+} 
+catch(err) {
+    console.log(err);
+}
 
-console.log(listPrinted)
+try {
+    const c2 = new HolbertonCourse("ES6", "1", ["Bob", "Jane"]);
+}
+catch(err) {
+    console.log(err);
+}
