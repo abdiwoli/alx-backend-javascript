@@ -15,7 +15,6 @@ export default class HolbertonCourse {
     } else {
       throw new TypeError('Students must be a array of strings');
     }
-    
   }
 
   set name(name) {
