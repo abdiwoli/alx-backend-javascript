@@ -5,7 +5,7 @@ export default function updateStudentGradeByCity(data, city, grades) {
       id: obj.id,
       fisrtName: obj.firstName,
       location: obj.location,
-      grade: grades.map((el) => (el.studentId === obj.id ? el.grade : ['N/A']))[0],
+	grade: grades.find(el => el.studentId === obj.id)?.grade || 'N/A'
 
     }));
 }
