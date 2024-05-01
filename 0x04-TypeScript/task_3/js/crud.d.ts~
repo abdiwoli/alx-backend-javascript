@@ -1,2 +1,0 @@
-#!/usr/bin/node
-import {RowID, RowElement} from './interface.ts'
