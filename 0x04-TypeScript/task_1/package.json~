@@ -1,0 +1,33 @@
+{
+  "name": "typescript_dependencies",
+  "version": "3.9.10",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start-dev": "webpack-dev-server --open",
+    "build": "webpack",
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "abdiwoli",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/plugin-proposal-export-default-from": "^7.5.2",
+    "@babel/preset-typescript": "^7.7.2",
+    "@types/jest": "^24.0.23",
+    "@typescript-eslint/eslint-plugin": "^7.8.0",
+    "@typescript-eslint/parser": "^7.8.0",
+    "clean-webpack-plugin": "^4.0.0",
+    "fork-ts-checker-webpack-plugin": "^9.0.2",
+    "html-webpack-plugin": "^5.5.0",
+    "jest": "^24.9.0",
+    "mini-css-extract-plugin": "^2.9.0",
+    "source-map": "^0.7.3",
+    "ts-jest": "^24.1.0",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.4.5",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.0.4"
+  }
+}
