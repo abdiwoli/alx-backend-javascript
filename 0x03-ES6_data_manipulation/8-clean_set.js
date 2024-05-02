@@ -1,5 +1,6 @@
 export default function cleanSet(set, startString) {
-  if (startString === '' || !(set instanceof Set) || typeof startString !== 'string') {
+  const allStrings = [...set].every((item) => typeof item === 'string');
+  if (startString === '' || !(set instanceof Set) || typeof startString !== 'string' || !allStrings) {
     return '';
   }
   const idx = startString.length;
