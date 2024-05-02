@@ -1,5 +1,5 @@
 export default function cleanSet(set, startString) {
-  if (startString === '' || !(set instanceof Set) || !(startString instanceof String)) {
+  if (startString === '' || !(set instanceof Set) || typeof startString !== 'string') {
     return '';
   }
   const idx = startString.length;
