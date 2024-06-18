@@ -1,5 +1,5 @@
 // display paramater
-function displayMessage (param) {
+function displayMessage(param) {
   console.log(param);
 }
 
