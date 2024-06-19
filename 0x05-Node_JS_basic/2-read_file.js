@@ -3,12 +3,12 @@ const fs = require('fs');
 // eslint-disable-next-line import/no-unresolved
 const { parse } = require('csv-parse/sync');
 
-function countStudents (path) {
+function countStudents (path) { // eslint-disable-line space-before-function-paren
   try {
     const fileContent = fs.readFileSync(path, 'utf-8');
     const records = parse(fileContent, {
       columns: true,
-      skip_empty_lines: true
+      skip_empty_lines: true // eslint-disable-line comma-dangle
     });
 
     const fieldGroups = {};
