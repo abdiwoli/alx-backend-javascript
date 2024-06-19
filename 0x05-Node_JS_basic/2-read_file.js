@@ -3,7 +3,10 @@ const fs = require('fs');
 // eslint-disable-next-line import/no-unresolved
 const { parse } = require('csv-parse/sync');
 
-function countStudents (path) { // eslint-disable-line space-before-function-paren
+const countStudents = (path) => {
+  if (!fs.existsSync(path)) {
+    throw new Error('Cannot load the database');
+  }
   try {
     const fileContent = fs.readFileSync(path, 'utf-8');
     const records = parse(fileContent, {
@@ -27,7 +30,7 @@ function countStudents (path) { // eslint-disable-line space-before-function-par
   } catch (error) {
     console.error('Cannot load the database');
   }
-}
+};
 
 // export the module
 module.exports = countStudents;
