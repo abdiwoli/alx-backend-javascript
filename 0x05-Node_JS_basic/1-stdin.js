@@ -17,5 +17,5 @@ const close = () => {
   console.log('This important software is now closing');
 };
 readInterFace.on('line', printLine);
-readInterFace.on('close', close);
+readInterFace.on('end', close);
 readInterFace.prompt();
