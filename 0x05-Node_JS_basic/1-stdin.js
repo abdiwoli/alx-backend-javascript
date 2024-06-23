@@ -1,22 +1,20 @@
-const userInputInteraction = () => {
-  if (process.stdin.isTTY) {
-    process.stdout.write('Welcome to Holberton School, what is your name?\n');
-    process.stdin.on('data', (input) => {
-      process.stdout.write(`Your name is: ${input}`);
-    });
-  } else {
-    process.stdout.write('Welcome to Holberton School, what is your name?\n');
-    process.stdin.on('data', (input) => {
-      process.stdout.write(`Your name is: ${input}`);
-    });
-    // Handle non-TTY environment (optional)
-    process.stdin.on('end', () => {
-      process.stdout.write('This important software is now closing\n');
-    });
-  }
+#!/bin/user/node
+const fs = require('readline');
+
+const readInterFace = fs.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  prompt: 'Welcome to Holberton School, what is your name?\n'
+
+});
+
+const printLine = (data) => {
+  console.log(`Your name is: ${data}`);
 };
-if (process.stdin.isTTY) {
-  userInputInteraction();
-} else {
-  userInputInteraction();
-}
+
+const close = () => {
+  console.log('This important software is now closing');
+};
+readInterFace.on('line', printLine);
+readInterFace.on('close', close);
+readInterFace.prompt();
