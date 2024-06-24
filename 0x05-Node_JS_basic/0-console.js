@@ -3,4 +3,4 @@ function displayMessage(param) {
   console.log(param);
 }
 
-module.exports = displayMessage;
+module.exports = displayMessage; console.log(3);

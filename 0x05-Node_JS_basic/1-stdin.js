@@ -8,14 +8,17 @@ const readInterFace = fs.createInterface({
   prompt: 'Welcome to Holberton School, what is your name?\n'
 
 });
+
 /* eslint-enable comma-dangle */
 const printLine = (data) => {
   console.log(`Your name is: ${data}`);
 };
 
 const close = () => {
-  console.log('This important software is now closing');
+  if (!process.stdin.isTTY) {
+    console.log('This important software is now closing');
+  }
 };
 readInterFace.on('line', printLine);
-readInterFace.on('end', close);
+readInterFace.on('close', close);
 readInterFace.prompt();
