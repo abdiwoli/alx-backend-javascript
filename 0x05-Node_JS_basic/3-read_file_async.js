@@ -26,9 +26,6 @@ const readLine = (data) => {
     students.push(student);
   }
 
-  // Log total number of students
-  console.log(`Number of students: ${students.length}`);
-
   // Group students by field
   const fieldGroups = {};
   students.forEach((student) => {
@@ -39,10 +36,13 @@ const readLine = (data) => {
     fieldGroups[field].push(firstname);
   });
 
-  // Log number of students in each field
-  for (const [field, firstNames] of Object.entries(fieldGroups)) {
-    console.log(`Number of students in ${field}: ${firstNames.length}. List: ${firstNames.join(', ')}`);
-  }
+  // Prepare result object to return
+  const result = {
+    numStudents: students.length,
+    fieldGroups: fieldGroups,
+  };
+
+  return result;
 };
 
 const countStudents = (path) => {
@@ -51,7 +51,7 @@ const countStudents = (path) => {
   }
   return readFile(path, 'utf8')
     .then((data) => {
-      readLine(data);
+      return readLine(data); // Return the result from readLine
     })
     .catch(() => {
       throw new Error('Cannot load the database');
