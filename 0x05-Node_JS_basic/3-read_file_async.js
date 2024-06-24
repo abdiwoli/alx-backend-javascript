@@ -47,7 +47,7 @@ const readLine = (data) => {
 
 const countStudents = (path) => {
   if (!fs.existsSync(path)) {
-    throw new Error('Cannot load the database');
+    return Promise.reject(new Error('Cannot load the database'));
   }
   return readFile(path, 'utf8')
     .then((data) => {
