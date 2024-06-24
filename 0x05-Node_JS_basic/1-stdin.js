@@ -1,15 +1,12 @@
-#!/bin/user/node
-const fs = require('readline');
+const readline = require('readline');
 
 /* eslint-disable comma-dangle */
-const readInterFace = fs.createInterface({
+const readInterface = readline.createInterface({
   input: process.stdin,
-  output: process.stdout,
-  prompt: 'Welcome to Holberton School, what is your name?\n'
-
+  output: process.stdout
 });
-
 /* eslint-enable comma-dangle */
+
 const printLine = (data) => {
   console.log(`Your name is: ${data}`);
 };
@@ -19,6 +16,11 @@ const close = () => {
     console.log('This important software is now closing');
   }
 };
-readInterFace.on('line', printLine);
-readInterFace.on('close', close);
-readInterFace.prompt();
+
+/* eslint-disable comma-dangle */
+readInterface.question('Welcome to Holberton School, what is your name?\n', (answer) => {
+  printLine(answer);
+  readInterface.close();
+});
+
+readInterface.on('close', close);
