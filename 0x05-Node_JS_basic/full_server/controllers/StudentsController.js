@@ -13,7 +13,7 @@ class StudentsController {
         for (const [field, firstNames] of Object.entries(data.fieldGroups)) {
           lines.push(`Number of students in ${field}: ${firstNames.length}. List: ${firstNames.join(', ')}`);
         }
-        const responseText = `This is the list of our students\nNumber of students: ${data.numStudents}\n${lines.join('\n')}`;
+        const responseText = `This is the list of our students\n${lines.join('\n')}`;
         res.status(200).set('Content-Type', 'text/plain').send(responseText);
       })
       .catch(() => {
