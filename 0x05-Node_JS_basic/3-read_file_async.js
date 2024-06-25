@@ -39,7 +39,7 @@ const readLine = (data) => {
   // Prepare result object to return
   const result = {
     numStudents: students.length,
-    fieldGroups: fieldGroups,
+    fieldGroups,
   };
 
   return result;
@@ -50,9 +50,7 @@ const countStudents = (path) => {
     return Promise.reject(new Error('Cannot load the database'));
   }
   return readFile(path, 'utf8')
-    .then((data) => {
-      return readLine(data); // Return the result from readLine
-    })
+    .then((data) => readLine(data))
     .catch(() => {
       throw new Error('Cannot load the database');
     });
