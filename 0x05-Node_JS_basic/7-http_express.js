@@ -20,7 +20,7 @@ app.get('/students', (req, res) => {
       for (const [field, firstNames] of Object.entries(data.fieldGroups)) {
         lines.push(`Number of students in ${field}: ${firstNames.length}. List: ${firstNames.join(', ')}`);
       }
-      const responseText = `Number of students: ${data.numStudents}\n${lines.join('\n')}`;
+      const responseText = `This is the list of our students\nNumber of students: ${data.numStudents}\n${lines.join('\n')}`;
       res.status(200).set('Content-Type', 'text/plain');
       res.send(responseText);
     })
