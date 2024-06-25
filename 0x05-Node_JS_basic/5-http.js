@@ -16,8 +16,9 @@ const server = http.createServer((req, res) => {
         res.write(lines.join('\n'));
         res.end();
       })
-      .catch((error) => {
-        res.end(`${error.message}\n`);
+      .catch(() => {
+        res.end(`This is the list of our students
+Cannot load the database`);
       });
   } else {
     res.writeHead(200, { 'Content-Type': 'text/plain' });
