@@ -4,10 +4,10 @@ const countStudents = require('./3-read_file_async');
 const server = http.createServer((req, res) => {
   if (req.url === '/students') {
     res.writeHead(200, { 'Content-Type': 'text/plain' });
-    res.write('This is the list of our students\n');
 
     countStudents('database.csv')
       .then((data) => {
+        res.write('This is the list of our students\n');
         res.write(`Number of students: ${data.numStudents}\n`);
         const lines = [];
         for (const [field, firstNames] of Object.entries(data.fieldGroups)) {
@@ -17,8 +17,7 @@ const server = http.createServer((req, res) => {
         res.end();
       })
       .catch(() => {
-        res.end(`This is the list of our students
-Cannot load the database`);
+        res.end('This is the list of our students Cannot load the database');
       });
   } else {
     res.writeHead(200, { 'Content-Type': 'text/plain' });
