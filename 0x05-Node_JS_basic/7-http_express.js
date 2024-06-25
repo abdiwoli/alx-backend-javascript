@@ -20,10 +20,9 @@ app.get('/students', (req, res) => {
       for (const [field, firstNames] of Object.entries(data.fieldGroups)) {
         lines.push(`Number of students in ${field}: ${firstNames.length}. List: ${firstNames.join(', ')}`);
       }
-      res.writeHead(200, { 'Content-Type': 'text/plain' });
-      res.write(`Number of students: ${data.numStudents}\n`);
-      res.write(lines.join('\n'));
-      res.end();
+      const responseText = `Number of students: ${data.numStudents}\n${lines.join('\n')}`;
+      res.status(200).set('Content-Type', 'text/plain');
+      res.send(responseText);
     })
     .catch(() => {
       res.status(404).contentType('text/plain').send('This is the list of our students\nCannot load the database');
