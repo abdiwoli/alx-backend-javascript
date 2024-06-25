@@ -2,7 +2,7 @@ const { readDatabase } = require('../utils');
 
 class StudentsController {
   // eslint-disable-next-line
-  static getAllStudents (req, res) {
+    static getAllStudents (req, res) {
     if (!process.argv[2]) {
       res.status(500).contentType('text/plain').send('Cannot load the database');
       return;
@@ -17,7 +17,7 @@ class StudentsController {
         res.status(200).set('Content-Type', 'text/plain').send(responseText);
       })
       .catch(() => {
-        res.status(500).contentType('text/plain').send('This is the list of our students\nCannot load the database');
+        res.status(500).contentType('text/plain').send('Cannot load the database');
       });
   }
 
@@ -33,7 +33,7 @@ class StudentsController {
       return;
     }
 
-    readDatabase('database.csv')
+    readDatabase(process.argv[2])
       .then((data) => {
         const fieldGroup = data.fieldGroups[major];
         if (!fieldGroup) {
