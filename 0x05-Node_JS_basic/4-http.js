@@ -7,3 +7,4 @@ const server = http.createServer((req, res) => {
 
 server.listen(1245, () => {
 });
+module.exports = server;
