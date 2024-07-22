@@ -1,58 +1,48 @@
+const { parse } = require('csv-parse');
 const fs = require('fs');
-const util = require('util');
+const { promisify } = require('util');
 
-const readFile = util.promisify(fs.readFile);
+const readFileAsync = promisify(fs.readFile);
 
-// Function to parse the CSV data
-const readLine = (data) => {
-  const lines = data.trim().split('\n');
-  const headers = lines[0].split(',');
-
-  const students = [];
-
-  // Process each line after the header
-  for (let i = 1; i < lines.length; i += 1) {
-    const values = lines[i].split(',');
-
-    // Create student object with header values as keys
-    const student = {};
-    headers.forEach((header, index) => {
-      student[header.trim()] = values[index].trim();
-    });
-
-    // Push student object to students array
-    students.push(student);
-  }
-
-  // Group students by field
-  const fieldGroups = {};
-  students.forEach((student) => {
-    const { field, firstname } = student;
-    if (!fieldGroups[field]) {
-      fieldGroups[field] = [];
+const parseAsync = (data) => new Promise((resolve, reject) => {
+  parse(data, { columns: true, trim: true }, (err, records) => {
+    if (err) {
+      return reject(err);
     }
-    fieldGroups[field].push(firstname);
+    return resolve(records);
   });
+});
 
-  // Prepare result object to return
-  const result = {
-    numStudents: students.length,
-    fieldGroups
-  };
-
-  return result;
-};
-
-// Function to read the database file
-const readDatabase = (path) => {
+const readDatabase = async (path) => {
+  // Check if the file exists
   if (!fs.existsSync(path)) {
-    return Promise.reject(new Error('Cannot load the database'));
+    return Promise.reject(new Error("File is not accessible"));
   }
-  return readFile(path, 'utf8')
-    .then((data) => readLine(data))
-    .catch(() => {
-      throw new Error('Cannot load the database');
-    });
+
+  try {
+    // Read the file data
+    const data = await readFileAsync(path, 'utf8');
+    // Parse the CSV data
+    const records = await parseAsync(data);
+    // Reduce records into fields
+    const fields = records.reduce((obj, val) => {
+      const key = val.field;
+      if (!obj[key]) { obj[key] = []; }
+      obj[key].push(val);
+      return obj;
+    }, {});
+    // Collect lines to return
+    const lines = [];
+    for (const [key, records] of Object.entries(fields)) {
+      const namesArray = records.map((el) => el.firstname);
+      const names = namesArray.join(', ');
+      lines.push(`Number of students in ${key}: ${records.length}. List: ${names}`);
+    }
+    return lines;
+  } catch (error) {
+    // Handle errors
+    return Promise.reject(error);
+  }
 };
 
-module.exports = { readDatabase };
+module.exports = readDatabase;

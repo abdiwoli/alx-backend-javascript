@@ -1,59 +1,43 @@
+const { parse } = require('csv-parse');
 const fs = require('fs');
-const util = require('util');
+const { promisify } = require('util');
 
-const readFile = util.promisify(fs.readFile);
+// Promisify fs.readFile
+const readFileAsync = promisify(fs.readFile);
 
-const readLine = (data) => {
-  const lines = data.trim().split('\n');
-
-  // Assuming the first line contains headers
-  const headers = lines[0].split(',');
-
-  // Initialize an array to hold student objects
-  const students = [];
-
-  /* eslint-disable no-plusplus */
-  for (let i = 1; i < lines.length; i++) {
-    const values = lines[i].split(',');
-
-    // Create student object with header values as keys
-    const student = {};
-    headers.forEach((header, index) => {
-      student[header.trim()] = values[index].trim();
-    });
-
-    // Push student object to students array
-    students.push(student);
-  }
-
-  // Group students by field
-  const fieldGroups = {};
-  students.forEach((student) => {
-    const { field, firstname } = student;
-    if (!fieldGroups[field]) {
-      fieldGroups[field] = [];
+const parseAsync = (data) => new Promise((resolve, reject) => {
+  parse(data, { columns: true, trim: true }, (err, records) => {
+    if (err) {
+      return reject(err);
     }
-    fieldGroups[field].push(firstname);
+    return resolve(records);
   });
+});
 
-  // Prepare result object to return
-  const result = {
-    numStudents: students.length,
-    fieldGroups,
-  };
-
-  return result;
-};
-
-const countStudents = (path) => {
+const countStudents = async (path) => {
   if (!fs.existsSync(path)) {
-    return Promise.reject(new Error('Cannot load the database'));
+    throw new Error('Cannot load the database');
   }
-  return readFile(path, 'utf8')
-    .then((data) => readLine(data))
-    .catch(() => {
+  try {
+    const data = await readFileAsync(path, 'utf8');
+    const records = await parseAsync(data);
+    console.log(`Total records read: ${records.length}`);
+    const fields = await records.reduce((obj, val) => {
+      const key = val.field;
+      // eslint-disable-next-line no-param-reassign
+      if (!obj[key]) { obj[key] = []; }
+      obj[key].push(val);
+      return obj;
+    }, {});
+
+    for (const [key, records] of Object.entries(fields)) {
+      const namesArray = records.map((el) => el.firstname);
+      const names = namesArray.join(', ');
+      console.log(`Number of students in ${key}: ${records.length}. List: ${names}`);
+    }
+  } catch {
       throw new Error('Cannot load the database');
-    });
+  }
 };
 
 module.exports = countStudents;

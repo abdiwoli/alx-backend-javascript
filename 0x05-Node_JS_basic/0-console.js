@@ -1,6 +1,5 @@
-// display paramater
-function displayMessage(param) {
-  console.log(param);
-}
+const displayMessage = (arg) => {
+  process.stdout.write(`${arg}\n`);
+};
 
-module.exports = displayMessage; console.log(3);
+module.exports = displayMessage;
