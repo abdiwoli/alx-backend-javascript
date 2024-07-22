@@ -1,37 +1,57 @@
+// read csv file
 const fs = require('fs');
-const { parse } = require('csv-parse');
 
-const parseAsync = (data, options) => new Promise((resolve, reject) => {
-  parse(data, options, (err, records) => {
-    if (err) {
-      return reject(err);
-    }
-    return resolve(records);
-  });
-});
-
-const countStudents = async (path) => {
-  if (!fs.existsSync(path)) {
+const countStudents = (dataPath) => {
+  if (!fs.existsSync(dataPath)) {
     throw new Error('Cannot load the database');
   }
-  const data = fs.readFileSync(path, 'utf-8');
-  const records = await parseAsync(data, { columns: true, trim: true });
-  console.log(`Number of students: ${records.length}`);
 
-  const fieldGroup = records.reduce((obj, record) => {
-    const key = record.field.toUpperCase();
-    if (!obj[key]) {
-      // eslint-disable-next-line no-param-reassign
-      obj[key] = [];
+  try {
+    // Read file synchronously and convert to string
+    const fileContent = fs.readFileSync(dataPath, 'utf-8');
+
+    // Split file content into lines
+    const lines = fileContent.trim().split('\n');
+
+    // Assuming the first line contains headers
+    const headers = lines[0].split(',');
+
+    // Initialize an array to hold student objects
+    const students = [];
+
+    /* eslint-disable no-plusplus */
+    for (let i = 1; i < lines.length; i++) {
+      const values = lines[i].split(',');
+
+      // Create student object with header values as keys
+      const student = {};
+      headers.forEach((header, index) => {
+        student[header.trim()] = values[index].trim();
+      });
+
+      // Push student object to students array
+      students.push(student);
     }
-    obj[key].push(record);
-    return obj;
-  }, {});
 
-  for (const [key, records] of Object.entries(fieldGroup)) {
-    const namesArray = records.map((el) => el.firstname);
-    const names = namesArray.join(', ');
-    console.log(`Number of students in ${key}: ${records.length}. List: ${names}`);
+    // Log total number of students
+    console.log(`Number of students: ${students.length}`);
+
+    // Group students by field
+    const fieldGroups = {};
+    students.forEach((student) => {
+      const { field, firstname } = student;
+      if (!fieldGroups[field]) {
+        fieldGroups[field] = [];
+      }
+      fieldGroups[field].push(firstname);
+    });
+
+    // Log number of students in each field
+    for (const [field, firstNames] of Object.entries(fieldGroups)) {
+      console.log(`Number of students in ${field}: ${firstNames.length}. List: ${firstNames.join(', ')}`);
+    }
+  } catch (error) {
+    console.error('Cannot load the database');
   }
 };
 
