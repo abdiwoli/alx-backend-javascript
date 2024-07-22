@@ -5,6 +5,7 @@ const print = (data) => {
   if (!process.stdin.isTTY) {
     console.log('This important software is now closing');
   }
+  process.exit();
 };
 
 process.stdin.on('data', print);
