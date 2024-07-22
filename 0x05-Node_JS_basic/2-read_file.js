@@ -16,7 +16,7 @@ const countStudents = async (path) => {
   }
   const data = fs.readFileSync(path, 'utf-8');
   const records = await parseAsync(data, { columns: true, trim: true });
-  console.log(`Total records read: ${records.length}`);
+  console.log(`Number of students: ${records.length}`);
 
   const fieldGroup = records.reduce((obj, record) => {
     const key = record.field.toUpperCase();

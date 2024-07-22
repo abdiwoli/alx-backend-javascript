@@ -24,7 +24,7 @@ const students = async (req, res) => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/plain');
     res.write('This is the list of our students\n');
-    res.write(`Total records read: ${records.length}\n`);
+    res.write(`Number of students: ${records.length}\n`);
     const fields = await records.reduce((obj, val) => {
       const key = val.field;
       // eslint-disable-next-line no-param-reassign
