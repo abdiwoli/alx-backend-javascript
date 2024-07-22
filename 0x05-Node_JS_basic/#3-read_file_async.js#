@@ -35,10 +35,10 @@ const countStudents = async (path) => {
       const names = namesArray.join(', ');
       console.log(`Number of students in ${key}: ${records.length}. List: ${names}`);
     }
-  }
-    catch {
-      throw new Error('Cannot load the database');
+  } catch (error){
+      throw new Error(error);
   }
 }
+
 
 module.exports = countStudents;

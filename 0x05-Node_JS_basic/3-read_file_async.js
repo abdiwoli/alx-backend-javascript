@@ -21,7 +21,7 @@ const countStudents = async (path) => {
   try {
     const data = await readFileAsync(path, 'utf8');
     const records = await parseAsync(data);
-    console.log(`Total records read: ${records.length}`);
+    console.log(`Number of students: ${records.length}`);
     const fields = await records.reduce((obj, val) => {
       const key = val.field;
       // eslint-disable-next-line no-param-reassign
