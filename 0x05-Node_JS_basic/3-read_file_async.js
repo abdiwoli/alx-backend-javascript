@@ -16,7 +16,7 @@ const parseAsync = (data) => new Promise((resolve, reject) => {
 
 const countStudents = async (path) => {
   if (!fs.existsSync(path)) {
-    throw new Error('Cannot load the database');
+    return Promise.reject(new Error('Cannot load the database'));
   }
   try {
     const data = await readFileAsync(path, 'utf8');
@@ -35,8 +35,9 @@ const countStudents = async (path) => {
       const names = namesArray.join(', ');
       console.log(`Number of students in ${key}: ${records.length}. List: ${names}`);
     }
+    return records;
   } catch (error) {
-    throw new Error(error);
+    return Promise.reject(new Error(error));
   }
 };
 

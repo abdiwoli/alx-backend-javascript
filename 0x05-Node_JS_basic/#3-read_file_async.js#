@@ -4,7 +4,7 @@ const { promisify } = require('util');
 
 // Promisify fs.readFile
 const readFileAsync = promisify(fs.readFile);
-/* eslint-disable */
+
 const parseAsync = (data) => new Promise((resolve, reject) => {
   parse(data, { columns: true, trim: true }, (err, records) => {
     if (err) {
@@ -15,13 +15,11 @@ const parseAsync = (data) => new Promise((resolve, reject) => {
 });
 
 const countStudents = async (path) => {
-  if (!fs.existsSync(path)) {
-    throw new Error('Cannot load the database');
-  }
+  
   try {
     const data = await readFileAsync(path, 'utf8');
     const records = await parseAsync(data);
-    console.log(`Total records read: ${records.length}`);
+    console.log(`Number of students: ${records.length}`);
     const fields = await records.reduce((obj, val) => {
       const key = val.field;
       // eslint-disable-next-line no-param-reassign
@@ -35,10 +33,9 @@ const countStudents = async (path) => {
       const names = namesArray.join(', ');
       console.log(`Number of students in ${key}: ${records.length}. List: ${names}`);
     }
-  } catch (error){
-      throw new Error(error);
+  } catch (error) {
+    throw new Error(error);
   }
-}
-
+};
 
 module.exports = countStudents;
