@@ -8,5 +8,4 @@ app.listen(1245, () => {
   console.log('server is ruinning');
 });
 
-
 module.exports = app;
