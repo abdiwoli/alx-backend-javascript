@@ -21,6 +21,7 @@ const countStudents = async (path) => {
   const fieldGroup = records.reduce((obj, record) => {
     const key = record.field.toUpperCase();
     if (!obj[key]) {
+      // eslint-disable-next-line no-param-reassign
       obj[key] = [];
     }
     obj[key].push(record);
