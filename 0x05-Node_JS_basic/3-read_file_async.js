@@ -4,7 +4,7 @@ const { promisify } = require('util');
 
 // Promisify fs.readFile
 const readFileAsync = promisify(fs.readFile);
-/* eslint-disable */
+
 const parseAsync = (data) => new Promise((resolve, reject) => {
   parse(data, { columns: true, trim: true }, (err, records) => {
     if (err) {
@@ -35,9 +35,9 @@ const countStudents = async (path) => {
       const names = namesArray.join(', ');
       console.log(`Number of students in ${key}: ${records.length}. List: ${names}`);
     }
-  } catch (error){
-      throw new Error(error);
+  } catch (error) {
+    throw new Error(error);
   }
-}
+};
 
 module.exports = countStudents;
