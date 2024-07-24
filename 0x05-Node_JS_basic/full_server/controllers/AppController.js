@@ -3,7 +3,7 @@ class AppController {
   static getHomepage(req, res) {
       res.status(200);
       res.setHeader('Content-Type', 'text/plain');
-      res.end('Hello Holberton School!');
+      res.send('Hello Holberton School!');
   }
 }
 
