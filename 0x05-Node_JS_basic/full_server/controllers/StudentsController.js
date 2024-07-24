@@ -5,7 +5,8 @@ class StudentsController {
   static getAllStudents (req, res) {
     readDatabase('database.csv')
       .then((names) => {
-        res.status(200);
+          res.status(200);
+          res.setHeader('Content-Type', 'text/plain');
         res.write('This is the list of our students\n');
         const lines = [];
         for (const [key, value] of Object.entries(names)) {
@@ -14,7 +15,8 @@ class StudentsController {
         res.end(lines.join('\n'));
       })
       .catch(() => {
-        res.status(500);
+          res.status(500);
+          res.setHeader('Content-Type', 'text/plain');
         res.end('Cannot load the database');
       });
   }
@@ -29,7 +31,8 @@ class StudentsController {
     if ((major === 'CS') || (major === 'SWE')) {
       res.status(200);
       readDatabase('database.csv')
-        .then((names) => {
+            .then((names) => {
+                res.setHeader('Content-Type', 'text/plain');
           res.end(`List: ${names[major].join(', ')}`);
         })
         .catch(() => {
@@ -37,6 +40,7 @@ class StudentsController {
           res.end('Cannot load the database');
         });
     } else {
+        res.setHeader('Content-Type', 'text/plain');
       res.status(500);
       res.end('Major parameter must be CS or SWE');
     }
