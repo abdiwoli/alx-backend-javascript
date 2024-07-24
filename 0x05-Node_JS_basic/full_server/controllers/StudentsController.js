@@ -6,7 +6,6 @@ class StudentsController {
     readDatabase('database.csv')
       .then((names) => {
           res.status(200);
-          res.setHeader('Content-Type', 'text/plain');
         res.write('This is the list of our students\n');
         const lines = [];
         for (const [key, value] of Object.entries(names)) {
@@ -31,7 +30,6 @@ class StudentsController {
       res.status(200);
       readDatabase('database.csv')
             .then((names) => {
-                res.setHeader('Content-Type', 'text/plain');
           res.send(`List: ${names[major].join(', ')}`);
         })
         .catch(() => {
@@ -39,7 +37,6 @@ class StudentsController {
           res.send('Cannot load the database');
         });
     } else {
-        res.setHeader('Content-Type', 'text/plain');
       res.status(500);
       res.send('Major parameter must be CS or SWE');
     }
