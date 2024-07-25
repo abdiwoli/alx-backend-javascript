@@ -1,21 +1,18 @@
-const { expect } = require('chai');
-const sinon = require('sinon');
+const chai = require('chai');
+const chaiHttp = require('chai-http');
 
-const path = require('path');
-const child = require('child_process');
+const app = require('./6-http_express');
 
-const exec = path.join(__dirname, '.', '1-stdin.js');
-const proc = child.spawn("node", [exec], { stdio: 'pipe' });
+chai.use(chaiHttp);
+chai.should();
 
-describe('main', () => {
-  it('the user is entering a name', function (done) {
-    proc.stdout.once('data', (test) => {
-      expect(test.toString()).to.equal('Welcome to Holberton School, what is your name?\n');
-      proc.stdin.write('Guillaumeh\r');
-      proc.stdout.once('data', (test) => {
-        expect(test.toString()).to.equal('Your name is: Guillaumeh\r');
+describe('Small HTTP server using Express', () => {
+  it('Returns the right status', (done) => {
+    chai.request(app)
+      .get('/nope')
+      .end((error, response) => {
+        chai.expect(response.statusCode).to.equal(404);
         done();
       });
-    });
   });
 });

@@ -9,13 +9,13 @@ class StudentsController {
         res.write('This is the list of our students\n');
         const lines = [];
         for (const [key, value] of Object.entries(names)) {
-          lines.push(`Number of students in ${key}: ${value.length}. List: ${value}`);
+          lines.push(`Number of students in ${key}: ${value.length}. List: ${value.join(', ')}`);
         }
-        res.send(lines.join('\n'));
+        res.end(lines.join('\n'));
       })
       .catch(() => {
           res.status(500);
-        res.send('Cannot load the database');
+        res.end('Cannot load the database');
       });
   }
 
@@ -34,11 +34,11 @@ class StudentsController {
         })
         .catch(() => {
           res.status(500);
-          res.send('Cannot load the database');
+          res.end('Cannot load the database');
         });
     } else {
       res.status(500);
-      res.send('Major parameter must be CS or SWE');
+      res.snd('Major parameter must be CS or SWE');
     }
   }
 }

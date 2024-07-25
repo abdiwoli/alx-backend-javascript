@@ -21,7 +21,7 @@ const countStudents = async (req, res) => {
     return res.end('Cannot load the database');
   }
   try {
-    const data = await readFileAsync('database.csv', 'utf8');
+    const data = await readFileAsync(process.argv[2], 'utf8');
     const records = await parseAsync(data);
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/plain');
