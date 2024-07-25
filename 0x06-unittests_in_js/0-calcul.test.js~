@@ -1,0 +1,14 @@
+const calculateNumber = require('./0-calcul.js');
+var assert = require('assert');
+
+describe('calculateNumber', () => {
+  it('1 + 3 = 4', () => {
+      assert.strictEqual(calculateNumber(1, 3), 4);
+  });
+
+    it('1 + 4 = 5', () => {
+      assert.strictEqual(calculateNumber(1, 3), 4);
+  });
+
+   
+});
