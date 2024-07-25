@@ -18,7 +18,7 @@ const parseAsync = (data) => new Promise((resolve, reject) => {
 const countStudents = async (req, res) => {
   if (!fs.existsSync('database.csv')) {
     res.statusCode = 404;
-    return res.end('Cannot load the database');
+    return res.end('This is the list of our students\nCannot load the database');
   }
   try {
     const data = await readFileAsync(process.argv[2], 'utf8');
@@ -43,7 +43,7 @@ const countStudents = async (req, res) => {
     return res.end(lines.join('\n'));
   } catch (error) {
       res.statusCode = 404;
-    return res.end('Cannot load the database');
+    return res.end('This is the list of our students\nCannot load the database');
   }
 };
 
