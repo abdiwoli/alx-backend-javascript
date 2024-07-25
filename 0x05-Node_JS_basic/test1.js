@@ -1,21 +1,26 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 
-const path = require('path');
-const child = require('child_process');
+const countStudents = require('./3-read_file_async.js');
 
-const exec = path.join(__dirname, '.', '1-stdin.js');
-const proc = child.spawn("node", [exec], { stdio: 'pipe' });
+describe('countStudents', () => {
+  let consoleSpy;
 
-describe('main', () => {
-  it('the user is entering a name', function (done) {
-    proc.stdout.once('data', (test) => {
-      expect(test.toString()).to.equal('Welcome to Holberton School, what is your name?\n');
-      proc.stdin.write('Guillaumeh\r');
-      proc.stdout.once('data', (test) => {
-        expect(test.toString()).to.equal('Your name is: Guillaumeh\r');
-        done();
-      });
+  beforeEach(() => {
+    consoleSpy = sinon.spy(console, 'log');
+  });
+
+  afterEach(() => {
+    consoleSpy.restore();
+  });
+
+  it('logs to the console the right messages', (done) => {
+    countStudents('./database.csv').then(() => {
+      expect(consoleSpy.calledWith('Number of students: 10')).to.be.true;
+      expect(consoleSpy.calledWith('Number of students in CS: 6. List: Johenn, Arielle, Jonathen, Emmenuel, Guillaume, Katie')).to.be.true;
+      expect(consoleSpy.calledWith('Number of students in SWE: 4. List: Guillaume, Joseph, Paul, Tommy')).to.be.true;
+
+      done();
     });
   });
 });
