@@ -1,0 +1,22 @@
+const { expect } = require('chai');
+const getPaymentTokenFromAPI = require('./6-payment_token');
+
+describe('Async tests with done', () => {
+    
+    it('should return a successful response when success is true', (done) => {
+        getPaymentTokenFromAPI(true)
+            .then(response => {
+                expect(response).to.deep.equal({ data: 'Successful response from the API' });
+                done(); // Call done to signal the end of the test
+            })
+            .catch(err => done(err)); // If there is an error, pass it to done
+    });
+
+    it('should return a rejected promise when success is false', (done) => {
+        getPaymentTokenFromAPI(false)
+            .then(() => {
+                done(new Error('Expected promise to be rejected but it was resolved'));
+            })
+            .catch(err => done(err));
+    });
+});
