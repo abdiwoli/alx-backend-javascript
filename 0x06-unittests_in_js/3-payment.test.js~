@@ -1,0 +1,28 @@
+const { expect } = require('chai');
+const sinon = require('sinon');
+const Utils = require('./utils');
+const sendPaymentRequestToApi = require('./3-payment');
+
+describe('sendPaymentRequestToApi', () => {
+  it('should call Utils.calculateNumber with "SUM", totalAmount, and totalShipping and log the result', () => {
+    // Create spies
+    const calculateNumberSpy = sinon.spy(Utils, 'calculateNumber');
+    const consoleLogSpy = sinon.spy(console, 'log');
+
+    // Call the function
+    sendPaymentRequestToApi(100, 20);
+
+    // Calculate the expected result
+    const expectedResult = Utils.calculateNumber('SUM', 100, 20);
+    
+    // Validate that Utils.calculateNumber was called once with 'SUM', 100, and 20
+    expect(calculateNumberSpy.calledOnceWithExactly('SUM', 100, 20)).to.be.true;
+
+    // Validate that console.log was called with the expected result
+    expect(consoleLogSpy.calledOnceWithExactly(`The total is: ${expectedResult}`)).to.be.true;
+
+    // Restore the original methods
+    calculateNumberSpy.restore();
+    consoleLogSpy.restore();
+  });
+});
