@@ -1,5 +1,7 @@
-const calculateNumber = require('./1-calcul.js');
 const { expect } = require('chai');
+const calculateNumber = require('./1-calcul.js');
+
+
 
 describe('calculateNumber', () => {
   it('1 + 3 = 4', () => {
