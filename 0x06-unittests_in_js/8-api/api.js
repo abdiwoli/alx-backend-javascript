@@ -8,4 +8,9 @@ app.get('/', (req, res) => {
     res.status(200).send('Welcome to the payment system');
 });
 
+app.get('/cart/:id', (req, res) => {
+    const id = req.params.id;
+    res.status(200).send(`Payment methods for cart ${id}`);
+});
+
 module.exports = server;
