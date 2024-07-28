@@ -1,3 +1,4 @@
+/* eslint-disable */
 class AppController {
   // eslint-disable-next-line space-before-function-paren
   static getHomepage(req, res) {

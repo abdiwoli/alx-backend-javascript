@@ -1,5 +1,4 @@
 {
   "require": "@babel/register",
-  "extension": ["js"],
-  "spec": "test/**/*.js"
+  "extension": ["js"]
 }

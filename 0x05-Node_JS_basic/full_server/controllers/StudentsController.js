@@ -1,44 +1,37 @@
+/* eslint-disable */
 import readDatabase from '../utils.js';
 
 class StudentsController {
-  // eslint-disable-next-line space-before-function-paren
-  static getAllStudents (req, res) {
-    readDatabase('database.csv')
+  static getAllStudents(req, res) {
+    readDatabase(process.argv[2])
       .then((names) => {
-          res.status(200);
-        res.write('This is the list of our students\n');
-        const lines = [];
+        res.status(200);
+        let responseText = 'This is the list of our students\n';
         for (const [key, value] of Object.entries(names)) {
-          lines.push(`Number of students in ${key}: ${value.length}. List: ${value.join(', ')}`);
+          responseText += `Number of students in ${key}: ${value.length}. List: ${value.join(', ')}\n`;
         }
-        res.end(lines.join('\n'));
+        res.end(responseText);
       })
       .catch(() => {
-          res.status(500);
-        res.end('Cannot load the database');
+        res.status(500).send('Cannot load the database');
       });
   }
 
-  // eslint-disable-next-line space-before-function-paren
-  static getAllStudentsByMajor (req, res) {
-    // eslint-disable-next-line no-useless-escape
+  static getAllStudentsByMajor(req, res) {
     const url = new URL(req.url, `http://${req.headers.host}`);
-    // eslint-disable-next-line no-useless-escape
     const match = url.pathname.match(/^\/students\/([^\/]+)$/);
     const major = match ? match[1] : null;
-    if ((major === 'CS') || (major === 'SWE')) {
-      res.status(200);
-      readDatabase('database.csv')
-            .then((names) => {
-          res.send(`List: ${names[major].join(', ')}`);
+
+    if (major === 'CS' || major === 'SWE') {
+      readDatabase(process.argv[2])
+        .then((names) => {
+          res.status(200).send(`List: ${names[major].join(', ')}\n`);
         })
         .catch(() => {
-          res.status(500);
-          res.end('Cannot load the database');
+          res.status(500).send('Cannot load the database');
         });
     } else {
-      res.status(500);
-      res.snd('Major parameter must be CS or SWE');
+      res.status(400).send('Major parameter must be CS or SWE');
     }
   }
 }

@@ -20,6 +20,7 @@
     "@babel/core": "^7.24.9",
     "@babel/preset-env": "^7.25.0",
     "@babel/register": "^7.24.6",
+    "@sinonjs/referee-sinon": "^12.0.0",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "chai": "^4.2.0",
