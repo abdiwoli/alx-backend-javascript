@@ -1,4 +1,4 @@
-import readDatabase from '../utils';
+import readDatabase from '../utils.js';
 
 class StudentsController {
   // eslint-disable-next-line space-before-function-paren

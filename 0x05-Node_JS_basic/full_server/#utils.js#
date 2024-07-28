@@ -1,8 +1,8 @@
 import  {parse} from 'csv-parse';
-import fs from 'fs';
+const fs = require('fs');
 import { promisify } from 'util';
 
-const readFileAsync = promisify(fs.readFile);
+import {readFileAsync} from promisify(fs.readFile);
 
 const parseAsync = (data) => new Promise((resolve, reject) => {
   parse(data, { columns: true, trim: true }, (err, records) => {

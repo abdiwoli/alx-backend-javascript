@@ -1,5 +1,5 @@
 import express from 'express';
-import route from './routes/index';
+import route from './routes/index.js';
 
 const app = express();
 
@@ -10,4 +10,4 @@ app.listen(1245, () => {
 });
 
 export default app;
-module.exports = app;
+
