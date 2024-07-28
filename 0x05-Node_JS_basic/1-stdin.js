@@ -1,17 +1,41 @@
-const readline = require('readline').createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
+const { parse } = require('csv-parse');
+const fs = require('fs').promises;
 
-console.log('Welcome to Holberton School, what is your name?');
+const countStudents = (path, logger = console.log) => {
+  return fs.readFile(path, 'utf8')
+    .then((data) => {
+      return new Promise((resolve, reject) => {
+        parse(data, { columns: true, trim: true }, (err, records) => {
+          if (err) {
+            reject(new Error('Cannot load the database'));
+            return;
+          }
 
-readline.question('', (name) => {
-  process.stdout.write(`Your name is: ${name.trim()}\r`);
-  readline.close();
-});
+          // Filter out any empty lines
+          records = records.filter(record => Object.values(record).some(val => val));
 
-readline.on('close', () => {
-  if (!process.stdin.isTTY) {
-    console.log('This important software is now closing');
-  }
-});
+          logger(`Number of students: ${records.length}`);
+          const fields = records.reduce((obj, val) => {
+            const key = val.field;
+            if (!obj[key]) {
+              obj[key] = [];
+            }
+            obj[key].push(val);
+            return obj;
+          }, {});
+
+          for (const [key, students] of Object.entries(fields)) {
+            const namesArray = students.map(student => student.firstname);
+            const names = namesArray.join(', ');
+            logger(`Number of students in ${key}: ${students.length}. List: ${names}`);
+          }
+          resolve(records);
+        });
+      });
+    })
+    .catch(() => {
+      throw new Error('Cannot load the database');
+    });
+};
+
+module.exports = countStudents;

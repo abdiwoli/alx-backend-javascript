@@ -1,21 +1,30 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
+const countStudents = require('./3-read_file_async.js');
 
-const path = require('path');
-const child = require('child_process');
+describe('countStudents', () => {
+  let consoleSpy;
 
-const exec = path.join(__dirname, '.', '1-stdin.js');
-const proc = child.spawn("node", [exec], { stdio: 'pipe' });
+  beforeEach(() => {
+    consoleSpy = sinon.spy(console, 'log');
+  });
 
-describe('main', () => {
-  it('the user is entering a name', function (done) {
-    proc.stdout.once('data', (test) => {
-      expect(test.toString()).to.equal('Welcome to Holberton School, what is your name?\n');
-      proc.stdin.write('Guillaumeh\r');
-      proc.stdout.once('data', (test) => {
-        expect(test.toString()).to.equal('Your name is: Guillaumeh\r');
-        done();
-      });
-    });
+  afterEach(() => {
+    consoleSpy.restore();
+  });
+
+  it('logs to the console the right messages', (done) => {
+    countStudents('./database.csv').then(() => {
+      const calls = consoleSpy.getCalls().map(call => call.args[0]);
+
+      // Output the captured logs for debugging
+      console.log('Captured console logs:', calls);
+
+      expect(calls[0]).to.equal('Number of students: 10');
+      expect(calls[1]).to.equal('Number of students in CS: 6. List: Johann, Arielle, Jonathan, Emmanuel, Guillaume, Katie');
+      expect(calls[2]).to.equal('Number of students in SWE: 4. List: Guillaume, Joseph, Paul, Tommy');
+
+      done();
+    }).catch(done);
   });
 });
