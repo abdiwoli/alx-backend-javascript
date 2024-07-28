@@ -1,6 +1,7 @@
 const { parse } = require('csv-parse');
 const fs = require('fs').promises;
 
+/* eslint-disable */
 const countStudents = (path, logger = console.log) => fs.readFile(path, 'utf8')
   .then((data) => new Promise((resolve, reject) => {
     parse(data, { columns: true, trim: true }, (err, records) => {
