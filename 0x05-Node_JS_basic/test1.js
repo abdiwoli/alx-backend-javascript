@@ -1,13 +1,13 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 
-const app = require('./5-http');
+const app = require('./7-http_express');
 
 chai.use(chaiHttp);
 chai.should();
 
-describe('More complex HTTP server using node', () => {
-  describe('/endpoint', () => {
+describe('More complex HTTP server using Express', () => {
+  describe('/ endpoint', () => {
     it('Returns the right content', (done) => {
       chai.request(app)
         .get('/')

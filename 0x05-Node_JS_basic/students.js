@@ -1,6 +1,3 @@
-/* eslint-disable */
-const http = require('http');
-
 const { parse } = require('csv-parse');
 const fs = require('fs');
 const { promisify } = require('util');
@@ -16,13 +13,13 @@ const parseAsync = (data) => new Promise((resolve, reject) => {
   });
 });
 
-const countStudents = async (req, res) => {
+const students = async (req, res) => {
   if (!fs.existsSync('database.csv')) {
     res.statusCode = 404;
-    return res.end('This is the list of our students\nCannot load the database');
+    res.end('Cannot load the database');
   }
   try {
-    const data = await readFileAsync(process.argv[2], 'utf8');
+    const data = await readFileAsync('database.csv', 'utf8');
     const records = await parseAsync(data);
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/plain');
@@ -43,31 +40,8 @@ const countStudents = async (req, res) => {
     }
     return res.end(lines.join('\n'));
   } catch (error) {
-    res.statusCode = 404;
-    return res.end('This is the list of our students\nCannot load the database');
+    return res.end(error.toString());
   }
 };
 
-const app = http.createServer((req, res) => {
-  const { pathname } = new URL(req.url, 'http://localhost');
-  switch (pathname) {
-    case '/':
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'text/plain');
-      res.end('Hello Holberton School!');
-      break;
-    case '/students':
-      countStudents(req, res);
-      break;
-    default:
-      res.statusCode = 404;
-      res.setHeader('Content-Type', 'text/plain');
-      res.end();
-  }
-});
-
-app.listen(1245, () => {
-  console.log('server is ruinning');
-});
-
-module.exports = app;
+module.exports = students;
