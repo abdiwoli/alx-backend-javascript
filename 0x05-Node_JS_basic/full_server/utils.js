@@ -1,3 +1,4 @@
+/* eslint-disable */
 import  {parse} from 'csv-parse';
 import fs from 'fs';
 import { promisify } from 'util';
