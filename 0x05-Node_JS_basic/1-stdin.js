@@ -13,17 +13,16 @@ readline.question('', (name) => {
   process.stdout.write(`Your name is: ${name.trim()}\r`);
 
   if (isPipedInput) {
-    // Wait for a short period to ensure the previous output is processed
     setTimeout(() => {
-      process.stdout.write('This important software is now closing\n');
+      process.stdout.write('This important software is now closing\r');
       process.exit(0);
-    }, 100); // Adjust delay as needed (100 ms in this case)
+    }, 100);
   } else {
-    readline.close(); // Close readline interface for interactive mode
+    readline.close();
   }
 });
 
-// Handle EOF
+
 process.stdin.on('end', () => {
   if (isPipedInput) {
     process.stdout.write('This important software is now closing\n');
