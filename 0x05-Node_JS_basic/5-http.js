@@ -42,7 +42,7 @@ const countStudents = async (req, res) => {
     }
     return res.end(lines.join('\n'));
   } catch (error) {
-      res.statusCode = 404;
+    res.statusCode = 404;
     return res.end('This is the list of our students\nCannot load the database');
   }
 };
