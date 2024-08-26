@@ -1,6 +1,5 @@
 const chai = require('chai');
-const request = require('request'); // Use the request module for HTTP calls
-const server = require('./api'); // Import your server
+const request = require('request');
 const expect = chai.expect;
 
 const baseUrl = 'http://localhost:7865'; // Correct port
@@ -31,10 +30,5 @@ describe('Index Page', () => {
       expect(res.headers['content-type']).to.contain('text/plain');
       done();
     });
-  });
-
-  // Close the server after all tests are done
-  after(() => {
-    server.close(); // Ensure this matches your server export
   });
 });
