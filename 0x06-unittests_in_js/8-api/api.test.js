@@ -46,5 +46,5 @@ describe('Cart Page', () => {
 });
 
 after(() => {
-  server.close(); // Close the server after all tests are done
+  server.close();
 });
