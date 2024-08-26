@@ -56,7 +56,7 @@ describe('Cart Page', () => {
   it('should return "Cart details for ID :id" when :id is a number', (done) => {
     request.get(`${baseUrl}/cart/123`, (err, res, body) => {
       if (err) return done(err);
-      expect(body).to.equal('Cart details for ID 123');
+      expect(body).to.equal('Payment methods for cart 123');
       done();
     });
   });
